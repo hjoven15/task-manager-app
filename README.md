@@ -1,7 +1,13 @@
 # 📝 Task Manager App
 
-Aplicación de **gestión de tareas** que permite crear, editar, eliminar y filtrar tareas de forma sencilla 🚀.  
+Aplicación de gestión de tareas desarrollada con React y Vite. Permite crear, editar, eliminar y filtrar tareas de manera sencilla y rápida 🚀.  
 Consume una **API externa** y cuenta con **pruebas unitarias** para garantizar su calidad ✅.
+
+## Características
+
+- Crear, editar y eliminar tareas
+- Filtrar tareas por estado (pendiente, completada)
+- Interfaz responsiva y moderna
 
 ---
 
@@ -35,23 +41,32 @@ Instalar dependencias:
 npm install
 ```
 
-Configurar variables de entorno:  
-Crea un archivo `.env` en la raíz del proyecto con la URL de la API:  
+---
 
-```env
-REACT_APP_API_URL=http://localhost:4000/api
-```
+## ⚡Uso
 
-⚠️ Nota: este archivo no se incluye en el repositorio, cada persona debe crearlo en su máquina.
+- Ejecuta la aplicación en modo desarrollo:
+  ```
+  npm run dev
+  ```
+- Compila para producción:
+  ```
+  npm run build
+  ```
+- Previsualiza el build:
+  ```
+  npm run preview
+  ```
 
 ---
 
-## ▶️ Ejecución en modo desarrollo
+## ⚡Variables de entorno
 
-```bash
-npm start
+Si necesitas configurar una API externa, crea un archivo `.env` en la raíz con variables como:
+
 ```
-Abrir en: http://localhost:3000
+VITE_API_URL=http://localhost:3000/api
+```
 
 ---
 
