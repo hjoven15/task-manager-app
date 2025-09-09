@@ -81,18 +81,18 @@ Esto ejecutará todas las pruebas configuradas con Jest.
 
 ## 📌 Funcionalidades principales
 
-➕ Crear nuevas tareas
-✏️ Editar tareas existentes
-🗑️ Eliminar tareas
-🔍 Filtrar por nombre o palabra clave
-🔗 Consumo de API
-✅ Pruebas unitarias para garantizar calidad
+- ➕ Crear nuevas tareas
+- ✏️ Editar tareas existentes
+- 🗑️ Eliminar tareas
+- 🔍 Filtrar por nombre o palabra clave
+- 🔗 Consumo de API
+- ✅ Pruebas unitarias para garantizar calidad
 
 ---
 
 ## 👩‍💻 Autores
-Haminton Joven - @hjoven15
-Sofía Ocampo - @asmejia28
+- Haminton Joven - @hjoven15
+- Sofía Ocampo - @asmejia28
 
 ---
 
