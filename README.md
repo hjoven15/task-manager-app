@@ -1,74 +1,85 @@
-# Proyecto Final - Gestión de Tareas
+# 📝 Task Manager App
 
-Este proyecto es una aplicación web desarrollada con React que permite gestionar tareas y subtareas de manera intuitiva. Funciona como un sistema CRUD (Crear, Leer, Actualizar y Eliminar) para organizar y visualizar tareas divididas por estado (Nueva, Abierta, En Proceso, Cerrada).
+Aplicación de **gestión de tareas** que permite crear, editar, eliminar y filtrar tareas de forma sencilla 🚀.  
+Consume una **API externa** y cuenta con **pruebas unitarias** para garantizar su calidad ✅.
 
-## Funcionalidades
+---
 
-- Crear, editar y eliminar tareas.
-- Asignar tareas y subtareas a distintos usuarios.
-- Visualizar el progreso de subtareas por cada tarea.
-- Filtrado de tareas por nombre, estado o usuario asignado.
-- Almacenamiento local temporal (no persistente en base de datos).
+## 📂 Tecnologías utilizadas
 
-## Vista previa
+- ⚛️ **React** – Interfaz de usuario
+- 🟢 **Node.js** - Entorno de ejecución
+- 🎨 **CSS / Tailwind** - Estilos
+- 🔗 **API REST** - Conexión con backend
+- 🧪 **Jest** - Pruebas unitarias
 
-La interfaz está organizada por columnas que representan los estados de las tareas, e incluye una búsqueda en tiempo real y una ventana modal para editar/crear tareas.
+---
 
-## Instalación y ejecución
+## ⚡ Instalación y configuración
 
-Sigue estos pasos para ejecutar el proyecto en tu entorno local:
+Clonar el repositorio: 
 
 ```bash
-# Clona el repositorio o copia los archivos en tu máquina
-cd proyecto-final
+git clone https://github.com/hjoven15/task-manager-app.git
 
-# Instala las dependencias
+```
+Entrar en el proyecto:
+
+```bash
+cd task-manager-app
+```
+
+Instalar dependencias:
+
+```bash
 npm install
-
-# Ejecuta la aplicación en modo desarrollo
-npm run dev
 ```
 
-La aplicación estará disponible en `http://localhost:5173` o el puerto que indique tu terminal.
+Configurar variables de entorno:  
+Crea un archivo `.env` en la raíz del proyecto con la URL de la API:  
 
-## API utilizada
-
-Se utiliza una API pública para obtener una lista de usuarios simulados:
-
-🔗 [https://jsonplaceholder.typicode.com/users](https://jsonplaceholder.typicode.com/users)
-
-Estos usuarios se combinan con algunos usuarios predefinidos para poder asignarlos a tareas y subtareas dentro de la aplicación.
-
-## Tecnologías utilizadas
-
-- React
-- Bootstrap 5
-- SweetAlert2
-- JavaScript (ES6+)
-- HTML5 + CSS3
-
-## Estructura del proyecto
-
-```
-task-manager-app/
-├── public/
-│   └── logo.png
-├── src/
-│   ├── components/
-│   │   ├── TaskCard.jsx
-│   │   ├── TaskList.jsx
-│   │   └── TaskModal.jsx
-│   ├── models/
-│   │   ├── Task.js
-│   │   ├── Subtask.js
-│   │   └── User.js
-│   ├── App.jsx
-│   ├── App.css
-│   ├── index.css
-│   └── main.jsx
-└── index.html
+```env
+REACT_APP_API_URL=http://localhost:4000/api
 ```
 
-## Créditos
+⚠️ Nota: este archivo no se incluye en el repositorio, cada persona debe crearlo en su máquina.
 
-Desarrollado por Haminton Joven y Sofía Ocampo.
+---
+
+## ▶️ Ejecución en modo desarrollo
+
+```bash
+npm start
+```
+Abrir en: http://localhost:3000
+
+---
+
+## 🧪 Correr pruebas unitarias
+
+```bash
+npm test
+```
+Esto ejecutará todas las pruebas configuradas con Jest.
+
+---
+
+## 📌 Funcionalidades principales
+
+➕ Crear nuevas tareas
+✏️ Editar tareas existentes
+🗑️ Eliminar tareas
+🔍 Filtrar por nombre o palabra clave
+🔗 Consumo de API
+✅ Pruebas unitarias para garantizar calidad
+
+---
+
+## 👩‍💻 Autores
+Haminton Joven - @hjoven15
+Sofía Ocampo - @asmejia28
+
+---
+
+## 📜 Licencia
+Este proyecto está bajo la licencia MIT – Siéntete libre de usarlo y mejorarlo.
