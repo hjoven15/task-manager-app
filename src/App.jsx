@@ -7,16 +7,20 @@ import User from "./models/User";
 import "./App.css";
 
 function App() {
+  // IDs fijos para usuarios iniciales
   const idHaminton = crypto.randomUUID();
   const idSofia = crypto.randomUUID();
 
+  // Usuarios estáticos predefinidos
   const staticUsers = [
     new User(idHaminton, "Haminton Joven"),
     new User(idSofia, "Sofía Ocampo"),
   ];
 
+  // Estado global de usuarios
   const [users, setUsers] = useState(staticUsers);
 
+  // Estado global de tareas iniciales
   const [tasks, setTasks] = useState(() => {
     const findUserByName = (name) =>
       staticUsers.find(
@@ -24,6 +28,7 @@ function App() {
       ) || null;
 
     return [
+      // Ejemplo con subtareas
       new Task(
         crypto.randomUUID(),
         "HU Implementar 1",
@@ -47,6 +52,7 @@ function App() {
           ),
         ]
       ),
+      // Más ejemplos
       new Task(
         crypto.randomUUID(),
         "HU Implementar 2",
@@ -78,9 +84,11 @@ function App() {
     ];
   });
 
+  // Estados de carga y error al obtener usuarios de la API
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [errorUsers, setErrorUsers] = useState(null);
 
+  // Efecto: trae usuarios externos de JSONPlaceholder
   useEffect(() => {
     const fetchUsers = async () => {
       setLoadingUsers(true);
@@ -94,12 +102,15 @@ function App() {
 
         const data = await response.json();
 
+        // Limitar y mapear a modelo User
         const limited = data
           .slice(0, 10)
           .map((user) => new User(user.id, user.name));
 
+        // Combinar usuarios estáticos + externos
         const combined = [...users, ...limited];
 
+        // Eliminar duplicados (según nombre en minúsculas)
         const uniqueUsers = combined.filter(
           (user, index, self) =>
             index ===
@@ -108,6 +119,7 @@ function App() {
             )
         );
 
+        // Ordenar alfabéticamente
         uniqueUsers.sort((a, b) => a.NameUser.localeCompare(b.NameUser));
 
         setUsers(uniqueUsers);
@@ -121,15 +133,21 @@ function App() {
     fetchUsers();
   }, []);
 
-  const [selectedTask, setSelectedTask] = useState(null); // Tarea seleccionada para edición
-  const [searchText, setSearchText] = useState(""); // Texto de búsqueda
+  // Estado: tarea seleccionada para editar o crear
+  const [selectedTask, setSelectedTask] = useState(null);
+  // Estado: texto de búsqueda
+  const [searchText, setSearchText] = useState("");
 
+  /**
+   * Crear o actualizar una tarea
+   */
   const handleUpdateTask = (updatedTask) => {
     const fixedTask = Task.fromPlainObject(updatedTask);
 
     const isNew = !tasks.some((task) => task.IdTask === fixedTask.IdTask);
 
     if (isNew) {
+      // Nueva tarea
       setTasks((prev) => [...prev, fixedTask]);
       window.Swal.fire({
         icon: "success",
@@ -139,6 +157,7 @@ function App() {
         showConfirmButton: false,
       });
     } else {
+      // Actualizar tarea existente
       setTasks((prev) =>
         prev.map((task) =>
           task.IdTask === fixedTask.IdTask ? fixedTask : task
@@ -153,9 +172,12 @@ function App() {
       });
     }
 
-    setSelectedTask(null);
+    setSelectedTask(null); // Cerrar modal
   };
 
+  /**
+   * Eliminar una tarea con confirmación
+   */
   const handleDeleteTask = (taskId) => {
     window.Swal.fire({
       title: "¿Estás seguro?",
@@ -173,6 +195,9 @@ function App() {
     });
   };
 
+  /**
+   * Agregar subtarea a una tarea
+   */
   const handleSubtaskAdd = (taskId, newSubtask) => {
     setTasks((prev) =>
       prev.map((task) =>
@@ -183,6 +208,9 @@ function App() {
     );
   };
 
+  /**
+   * Eliminar subtarea de una tarea
+   */
   const handleSubtaskDelete = (taskId, subtaskId) => {
     setTasks((prev) =>
       prev.map((task) =>
@@ -198,11 +226,18 @@ function App() {
     );
   };
 
+  /**
+   * Inicializar nueva tarea vacía
+   */
   const handleNewTask = () => {
     const emptyTask = new Task(crypto.randomUUID(), "", "", null, "Nueva", []);
     setSelectedTask(emptyTask);
   };
 
+  /**
+   * Filtrar tareas por nombre, usuario asignado o estado
+   * (sin importar mayúsculas, minúsculas o tildes)
+   */
   const filteredTasks = tasks.filter((task) => {
     const normalize = (str) =>
       str
@@ -227,10 +262,12 @@ function App() {
 
   return (
     <div className="App">
+      {/* Barra superior */}
       <div className="full-width-bar">
         <h1 className="title-text">GESTIÓN DE TAREAS</h1>
       </div>
 
+      {/* Botón nueva tarea + buscador */}
       <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <button className="btn btn-primary" onClick={handleNewTask}>
           <i className="bi bi-plus-lg me-2"></i>Nueva Tarea
@@ -250,12 +287,14 @@ function App() {
         </div>
       </div>
 
+      {/* Lista de tareas */}
       <TaskList
         tasks={filteredTasks}
         onEditTask={setSelectedTask}
         onDeleteTask={handleDeleteTask}
       />
 
+      {/* Modal de tarea (crear/editar) */}
       {selectedTask && (
         <TaskModal
           task={selectedTask}

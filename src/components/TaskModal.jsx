@@ -1,3 +1,13 @@
+// TaskModal.jsx
+// Modal para crear/editar una tarea y gestionar sus subtareas.
+// Props:
+// - task: objeto de la tarea actual (puede incluir subtareas)
+// - onClose: callback para cerrar el modal
+// - onSave: callback para guardar cambios en la tarea
+// - onSubtaskAdd: callback para añadir una subtarea
+// - onSubtaskDelete: callback para eliminar una subtarea
+// - users: lista de usuarios disponibles para asignar
+
 import { useState, useEffect, useRef } from "react";
 import Subtask from "../models/Subtask";
 
@@ -9,16 +19,25 @@ const TaskModal = ({
   onSubtaskDelete,
   users,
 }) => {
+  // Copia local de la tarea para edición controlada
   const [localTask, setLocalTask] = useState({ ...task });
+
+  // Estado para nueva subtarea temporal
   const [newSubtaskName, setNewSubtaskName] = useState("");
+
+  // Referencia al input de subtarea (para capturar "Enter")
   const inputRef = useRef(null);
+
+  // Flag para inicialización de datos (evita repetir cálculos en cada render)
   const hasInitialized = useRef(false);
 
+  // Efecto que sincroniza la tarea local con la lista de usuarios
   useEffect(() => {
     if (hasInitialized.current || !users || users.length === 0) return;
 
     const taskCopy = { ...task };
 
+    // Normaliza el usuario asignado a la tarea (con objeto completo)
     if (taskCopy.AssignedUser?.IdUser) {
       const userFull = users.find(
         (u) => String(u.IdUser) === String(taskCopy.AssignedUser.IdUser)
@@ -28,6 +47,7 @@ const TaskModal = ({
       taskCopy.AssignedUser = null;
     }
 
+    // Normaliza usuarios de cada subtarea
     if (taskCopy.Subtasks?.length) {
       taskCopy.Subtasks = taskCopy.Subtasks.map((sub) => {
         if (sub.AssignedUser?.IdUser) {
@@ -44,6 +64,7 @@ const TaskModal = ({
     hasInitialized.current = true;
   }, [task, users]);
 
+  // Crea una nueva subtarea y la agrega a la tarea actual
   const handleSubtaskCreation = (e) => {
     e?.preventDefault();
     const trimmedName = newSubtaskName.trim();
@@ -70,6 +91,7 @@ const TaskModal = ({
     }
   };
 
+  // Permite crear subtarea presionando Enter en el input
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && e.target === inputRef.current) {
       e.preventDefault();
@@ -77,6 +99,7 @@ const TaskModal = ({
     }
   };
 
+  // Actualiza campos de una subtarea específica (nombre, detalle, usuario, etc.)
   const handleSubtaskFieldChange = (subtaskId, field, value) => {
     const updated = localTask.Subtasks.map((s) =>
       s.IdSubtask === subtaskId ? { ...s, [field]: value } : s
@@ -84,6 +107,7 @@ const TaskModal = ({
     setLocalTask({ ...localTask, Subtasks: updated });
   };
 
+  // Cambia estado de subtarea (Abierta ↔ Cerrada)
   const handleSubtaskStateChange = (subtaskId) => {
     const updated = localTask.Subtasks.map((sub) =>
       sub.IdSubtask === subtaskId
@@ -97,6 +121,7 @@ const TaskModal = ({
     setLocalTask({ ...localTask, Subtasks: updated });
   };
 
+  // Guarda cambios en la tarea y cierra modal
   const handleSave = async (e) => {
     e.preventDefault();
     await onSave(localTask);
@@ -105,6 +130,7 @@ const TaskModal = ({
 
   return (
     <>
+      {/* Overlay oscuro del modal */}
       <div
         className="modal fade show d-block"
         tabIndex="-1"
@@ -113,6 +139,7 @@ const TaskModal = ({
       >
         <div className="modal-dialog modal-xl">
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            {/* Encabezado */}
             <div className="modal-header">
               <h5 className="modal-title">Tarea</h5>
               <button
@@ -121,9 +148,12 @@ const TaskModal = ({
                 onClick={onClose}
               ></button>
             </div>
+
+            {/* Formulario principal */}
             <form
               onSubmit={handleSave}
               onKeyDown={(e) => {
+                // Evita que Enter en inputs normales dispare submit
                 if (
                   e.key === "Enter" &&
                   e.target.tagName === "INPUT" &&
@@ -134,6 +164,7 @@ const TaskModal = ({
               }}
             >
               <div className="modal-body">
+                {/* Nombre de tarea */}
                 <div className="mb-3">
                   <label className="form-label">Nombre:</label>
                   <input
@@ -145,6 +176,7 @@ const TaskModal = ({
                   />
                 </div>
 
+                {/* Detalle */}
                 <div className="mb-3">
                   <label className="form-label">Detalle:</label>
                   <textarea
@@ -160,6 +192,7 @@ const TaskModal = ({
                   />
                 </div>
 
+                {/* Usuario asignado */}
                 <div className="mb-3">
                   <label className="form-label">Asignado a:</label>
                   <select
@@ -184,6 +217,7 @@ const TaskModal = ({
                   </select>
                 </div>
 
+                {/* Estado */}
                 <div className="mb-3">
                   <label className="form-label">Estado:</label>
                   <select
@@ -203,6 +237,7 @@ const TaskModal = ({
                   </select>
                 </div>
 
+                {/* Subtareas */}
                 <h4 className="mt-4 mb-3">Subtareas</h4>
                 <div className="input-group mb-3">
                   <input
@@ -216,6 +251,7 @@ const TaskModal = ({
                   <span className="input-group-text">Presiona Enter</span>
                 </div>
 
+                {/* Lista de subtareas */}
                 <div className="list-group mb-4">
                   {localTask.Subtasks.map((sub) => (
                     <div
@@ -223,6 +259,7 @@ const TaskModal = ({
                       className="list-group-item d-flex flex-column gap-2"
                     >
                       <div className="d-flex align-items-center">
+                        {/* Checkbox estado */}
                         <input
                           type="checkbox"
                           className="form-check-input me-2"
@@ -231,6 +268,8 @@ const TaskModal = ({
                             handleSubtaskStateChange(sub.IdSubtask)
                           }
                         />
+
+                        {/* Nombre subtarea */}
                         <input
                           type="text"
                           className="form-control form-control-sm me-2"
@@ -244,6 +283,8 @@ const TaskModal = ({
                           }
                           placeholder="Nombre"
                         />
+
+                        {/* Detalle subtarea */}
                         <input
                           type="text"
                           className="form-control form-control-sm me-2"
@@ -257,6 +298,8 @@ const TaskModal = ({
                           }
                           placeholder="Detalle"
                         />
+
+                        {/* Usuario asignado */}
                         <select
                           className="form-select form-select-sm me-2"
                           value={sub.AssignedUser?.IdUser || ""}
@@ -278,6 +321,8 @@ const TaskModal = ({
                             </option>
                           ))}
                         </select>
+
+                        {/* Botón eliminar subtarea */}
                         <button
                           type="button"
                           className="btn btn-sm btn-outline-danger"
@@ -317,6 +362,8 @@ const TaskModal = ({
                   ))}
                 </div>
               </div>
+
+              {/* Footer botones */}
               <div className="modal-footer">
                 <button
                   type="button"

@@ -1,3 +1,6 @@
+/* ===================================
+   Fuentes y estilo global
+   =================================== */
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
 body {
@@ -6,21 +9,30 @@ body {
   background-color: #f4f4f4; 
 }
 
+/* ===================================
+   Contenedor principal de la app
+   =================================== */
 .App {
   padding: 20px;
 }
 
+/* ===================================
+   Barra de ancho completo
+   =================================== */
 .full-width-bar {
-  width: 100%; /* Fuerza a ocupar todo el ancho visible */
+  width: 100%;
   background-color: #ffffff8c;
   border: 1px solid  #0c0b0b4b;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* sombra suave */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  padding: 2rem ;
+  padding: 2rem;
   text-align: center;
-  margin-bottom: 2rem; /* Espacio hacia abajo */
+  margin-bottom: 2rem;
 }
 
+/* ===================================
+   Títulos
+   =================================== */
 h1 {
   text-align: center;
   color: #333;
@@ -49,7 +61,9 @@ h1 {
   margin-bottom: 10px;
 }
 
-/* Estilo tarjetas */
+/* ===================================
+   Tarjetas y hover
+   =================================== */
 .card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
@@ -60,7 +74,9 @@ h1 {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
-/* Fondos personalizados para estados */
+/* ===================================
+   Fondos personalizados por estado
+   =================================== */
 .bg-primary-light {
   background-color: rgba(13, 110, 253, 0.05);
 }
@@ -74,7 +90,9 @@ h1 {
   background-color: rgba(25, 135, 84, 0.05);
 }
 
-/* Barra de progreso personalizada */
+/* ===================================
+   Barra de progreso
+   =================================== */
 .progress {
   background-color: #e9ecef;
   border-radius: 3px;
@@ -85,6 +103,9 @@ h1 {
   transition: width 0.6s ease;
 }
 
+/* ===================================
+   Formularios
+   =================================== */
 .form-group {
   margin-bottom: 12px;
 }
@@ -112,6 +133,9 @@ input, textarea, select {
   border-radius: 5px;
 }
 
+/* ===================================
+   Subtareas
+   =================================== */
 .subtask-item {
   display: flex;
   align-items: center;

@@ -1,7 +1,8 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react"; 
 import TaskList from "../../components/TaskList";
 
 describe("TaskList", () => {
+  // Datos de prueba con diferentes estados y subtareas
   const tasks = [
     {
       IdTask: "2",
@@ -44,6 +45,11 @@ describe("TaskList", () => {
     },
   ];
 
+  /**
+   * Verifica que el componente renderice correctamente
+   * todas las columnas de estado definidas: 
+   * "Nueva", "Abierta", "Proceso" y "Cerrada".
+   */
   test("renderiza todas las columnas de estados", () => {
     render(<TaskList tasks={tasks} />);
     expect(screen.getByRole("heading", { name: "Nueva" })).toBeInTheDocument();
@@ -52,6 +58,10 @@ describe("TaskList", () => {
     expect(screen.getByRole("heading", { name: "Cerrada" })).toBeInTheDocument();
   });
 
+  /**
+   * Comprueba que cada tarea se muestre
+   * en la columna que corresponde a su estado.
+   */
   test("muestra las tareas en la columna correspondiente", () => {
     render(<TaskList tasks={tasks} />);
     expect(screen.getByText("Tarea A")).toBeInTheDocument();
@@ -59,6 +69,10 @@ describe("TaskList", () => {
     expect(screen.getByText("Tarea C")).toBeInTheDocument();
   });
 
+  /**
+   * Valida que dentro de cada columna, las tareas 
+   * se ordenen por el campo IdTask en orden ascendente.
+   */
   test("ordena las tareas en cada columna por IdTask", () => {
     render(<TaskList tasks={tasks} />);
     const nuevaColumn = screen.getByRole("heading", { name: "Nueva" }).parentElement;
@@ -67,12 +81,20 @@ describe("TaskList", () => {
     expect(titlesText).toEqual(["Tarea A", "Tarea B"]);
   });
 
+  /**
+   * Verifica que el progreso de subtareas de una tarea
+   * se muestre en formato "completadas/total (porcentaje)".
+   */
   test("muestra el progreso de subtareas correctamente", () => {
     render(<TaskList tasks={tasks} />);
     const tareaC = screen.getByText("Tarea C").closest(".card");
     expect(within(tareaC).getByText("1/2 (50%)")).toBeInTheDocument();
   });
 
+  /**
+   * Valida que la barra de progreso tenga aplicado
+   * el porcentaje correspondiente en su estilo CSS.
+   */
   test("barra de progreso refleja correctamente el porcentaje", () => {
     render(<TaskList tasks={tasks} />);
     const tareaC = screen.getByText("Tarea C").closest(".card");

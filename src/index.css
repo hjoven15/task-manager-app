@@ -1,5 +1,13 @@
+/* ===================================
+   Variables y estilos globales
+   =================================== */
 :root {
-   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* Tipografía base del proyecto */
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  /* Color de texto principal */
   color: rgba(0, 0, 0, 0.87);
+
+  /* Color de fondo general */
   background-color: #ffffff;
 }
